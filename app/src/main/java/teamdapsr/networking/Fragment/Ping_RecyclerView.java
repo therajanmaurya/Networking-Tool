@@ -21,10 +21,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +28,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.activeandroid.util.Log;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -48,10 +45,12 @@ import teamdapsr.networking.R;
 
 public class Ping_RecyclerView extends Fragment {
 
-
+    String LOG_TAG = getClass().getName();
     private RecyclerView recyclerView ;
-    private EditText passwordInput;
+    private EditText host;
     private View positiveAction;
+    CheckBox Add_list ;
+    boolean Add_list_status = false;
 
 
     @Nullable
@@ -76,6 +75,18 @@ public class Ping_RecyclerView extends Fragment {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
 
+                                if(Add_list_status){
+
+                                    //Add to database and open new activity
+
+                                }else
+                                {
+                                    String hostvalue = host.getText().toString();
+
+                                    // open new activity to show ping
+                                }
+
+
                             }
 
                             @Override
@@ -84,30 +95,16 @@ public class Ping_RecyclerView extends Fragment {
                         }).build();
 
                 positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
-                //noinspection ConstantConditions
-                passwordInput = (EditText) dialog.getCustomView().findViewById(R.id.password);
-                passwordInput.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+                host = (EditText) dialog.getCustomView().findViewById(R.id.password);
+                Add_list = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        positiveAction.setEnabled(s.toString().trim().length() > 0);
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
-
-                // Toggling the show password CheckBox will mask or unmask the password input EditText
-                CheckBox checkbox = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
-                checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                Add_list.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        passwordInput.setInputType(!isChecked ? InputType.TYPE_TEXT_VARIATION_PASSWORD : InputType.TYPE_CLASS_TEXT);
-                        passwordInput.setTransformationMethod(!isChecked ? PasswordTransformationMethod.getInstance() : null);
+
+                        Log.i(LOG_TAG, "" + isChecked);
+                        Add_list_status = isChecked;
+
                     }
                 });
 
