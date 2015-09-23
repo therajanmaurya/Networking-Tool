@@ -3,6 +3,8 @@ package teamdapsr.networking.Ping_Application;
 import android.app.Application;
 import android.content.Context;
 
+import com.activeandroid.ActiveAndroid;
+
 import teamdapsr.networking.Su.Su_permission;
 
 /**
@@ -19,6 +21,12 @@ public class Run_su_permission extends Application
     public void onCreate()
     {
         super.onCreate();
+
+
+        /**
+         * initialization of Active android
+         */
+        ActiveAndroid.initialize(this);
 
         Application_context = getApplicationContext();
 

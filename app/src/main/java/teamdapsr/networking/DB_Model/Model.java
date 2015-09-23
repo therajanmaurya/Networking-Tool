@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package teamdapsr.networking.Model;
+package teamdapsr.networking.DB_Model;
 
 import java.util.Random;
 

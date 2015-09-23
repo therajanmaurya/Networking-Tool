@@ -40,7 +40,8 @@ import java.util.Random;
 
 import teamdapsr.networking.Adapter.RecyclerViewAdapter;
 import teamdapsr.networking.MainActivity;
-import teamdapsr.networking.Model.Model;
+import teamdapsr.networking.DB_Model.Model;
+import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.R;
 
 public class Ping_RecyclerView extends Fragment {
@@ -78,6 +79,11 @@ public class Ping_RecyclerView extends Fragment {
                                 if(Add_list_status){
 
                                     //Add to database and open new activity
+
+                                    String host_data = host.getText().toString();
+                                    String date = getCurrentDate();
+                                    String time = getCurrentTime();
+                                    saveTOdatabase(date,time,host_data);
 
                                 }else
                                 {
@@ -129,6 +135,27 @@ public class Ping_RecyclerView extends Fragment {
         return list;
     }
 
+
+    /**
+     *
+     * @param date current date to save in database
+     * @param time  current time to save in database
+     * @param host_id host or Ip to save in data base
+     */
+    public void saveTOdatabase(String date , String time , String host_id)
+    {
+
+        // saving to data base;
+        Ping_Host_Model ping_hostModel = new Ping_Host_Model(date, time,host_id);
+        ping_hostModel.save();
+
+    }
+
+
+    /**
+     *
+     * @return Current date
+     */
     public String getCurrentDate()
     {
         Calendar c = Calendar.getInstance();
@@ -136,6 +163,11 @@ public class Ping_RecyclerView extends Fragment {
         return df.format(c.getTime());
     }
 
+
+    /**
+     *
+     * @return Current Time
+     */
     public static String getCurrentTime()
     {
         return new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());

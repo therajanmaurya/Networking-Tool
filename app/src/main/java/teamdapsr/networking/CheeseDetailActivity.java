@@ -26,7 +26,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import teamdapsr.networking.Model.Model;
+import teamdapsr.networking.DB_Model.Model;
 
 public class CheeseDetailActivity extends AppCompatActivity {
 

@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import teamdapsr.networking.CheeseDetailActivity;
-import teamdapsr.networking.Model.Model;
+import teamdapsr.networking.DB_Model.Model;
 import teamdapsr.networking.R;
 
 /**
