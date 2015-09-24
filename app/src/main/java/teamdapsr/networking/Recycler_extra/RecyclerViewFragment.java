@@ -16,6 +16,7 @@
 
 package teamdapsr.networking.Recycler_extra;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,6 +36,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 
+import teamdapsr.networking.Activity_ping_to_domain.Ping_To_Domain;
+import teamdapsr.networking.Adapter.RecyclerItemClickListner;
 import teamdapsr.networking.DB_Model.Date_Time_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DBhelper.DB_Add;
@@ -47,7 +50,7 @@ import teamdapsr.networking.Utils.Utils;
  * Demonstrates the use of {@link RecyclerView} with a {@link LinearLayoutManager} and a
  * {@link GridLayoutManager}.
  */
-public class RecyclerViewFragment extends Fragment {
+public class RecyclerViewFragment extends Fragment implements RecyclerItemClickListner.OnItemClickListener{
 
     private final String TAG = getClass().getSimpleName();
 
@@ -62,6 +65,25 @@ public class RecyclerViewFragment extends Fragment {
     CheckBox Add_list ;
     boolean Add_list_status = false;
     public ArrayList<Ping_Host_Model> ping_host_models ;
+
+
+    @Override
+    public void onItemClick(View childView, int position) {
+        Log.i(LOG_TAG , "The Position :" + position);
+        String domain = ping_host_models.get(position).getHost();
+        Log.d(LOG_TAG ,"Domain is :" + domain);
+
+        Intent intent = new Intent(getActivity(), Ping_To_Domain.class);
+        intent.putExtra(Ping_To_Domain.EXTRA_domain , ping_host_models.get(position).getHost());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemLongPress(View childView, int position) {
+
+    }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +101,8 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListner(getActivity(), this));
+        mRecyclerView.setHasFixedSize(true);
         mAdapter = new CustomAdapter(getActivity() , ping_host_models);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -169,12 +192,13 @@ public class RecyclerViewFragment extends Fragment {
         Date_Time_Model date_time_model = new Date_Time_Model(date ,time);
         Ping_Host_Model ping_host_model = new Ping_Host_Model(host_id ,date_time_model);
         ping_host_models.add(ping_host_model);
-        mAdapter.notifyItemInserted(ping_host_models.size() - 1);
+        //mAdapter.notifyItemInserted(ping_host_models.size() - 1);
         Log.i(LOG_TAG, "save to database : " + ping_host_models.size());
         mAdapter.notifyDataSetChanged();
 
 
     }
+
 
 
 }
