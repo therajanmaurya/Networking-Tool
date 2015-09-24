@@ -20,34 +20,35 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.activeandroid.util.Log;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 import teamdapsr.networking.Adapter.RecyclerViewAdapter;
+import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
+import teamdapsr.networking.DBhelper.DB_Add;
+import teamdapsr.networking.DBhelper.DB_Select_All;
 import teamdapsr.networking.MainActivity;
-import teamdapsr.networking.DB_Model.Model;
-import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.R;
+import teamdapsr.networking.Utils.Utils;
 
 public class Ping_RecyclerView extends Fragment {
 
+    private TextView mTextEmptyList;
     String LOG_TAG = getClass().getName();
-    private RecyclerView recyclerView ;
+    private Custom_RecyclerView recyclerView ;
     private EditText host;
     private View positiveAction;
     CheckBox Add_list ;
@@ -59,14 +60,18 @@ public class Ping_RecyclerView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_cheese_list, container, false);
 
-        recyclerView = (RecyclerView)layout.findViewById(R.id.recyclerview);
+        mTextEmptyList = (TextView) layout.findViewById(R.id.list_empty_message);
+        recyclerView = (Custom_RecyclerView)layout.findViewById(R.id.recyclerview);
         setupRecyclerView(recyclerView);
+
 
         MainActivity.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
+                /**
+                 * Material Dialog
+                 */
                 MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                         .title("New Host")
                         .customView(R.layout.dialog_customview, true)
@@ -78,18 +83,23 @@ public class Ping_RecyclerView extends Fragment {
 
                                 if(Add_list_status){
 
-                                    //Add to database and open new activity
+                                    //Add to database and open new activity to show ping
 
                                     String host_data = host.getText().toString();
-                                    String date = getCurrentDate();
-                                    String time = getCurrentTime();
-                                    saveTOdatabase(date,time,host_data);
+                                    String date = Utils.getCurrentDate();
+                                    String time = Utils.getCurrentTime();
+                                    saveTOdatabase(host_data,date,time);
 
                                 }else
                                 {
-                                    String hostvalue = host.getText().toString();
-
                                     // open new activity to show ping
+
+                                    String host_data = host.getText().toString();
+                                    String date = Utils.getCurrentDate();
+                                    String time = Utils.getCurrentTime();
+                                    saveTOdatabase(host_data,date,time);
+
+
                                 }
 
 
@@ -121,9 +131,12 @@ public class Ping_RecyclerView extends Fragment {
         return layout;
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView) {
+    private void setupRecyclerView(Custom_RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new RecyclerViewAdapter(getActivity(), getRandomSublist(Model.sCheeseStrings, 30),getCurrentDate(),getCurrentTime()));
+
+        recyclerView.setAdapter(new RecyclerViewAdapter(getActivity(), DB_Select_All.Select_All(), Utils.getCurrentDate(), Utils.getCurrentTime()));
+        recyclerView.setEmptyView(mTextEmptyList);
+
     }
 
     private List<String> getRandomSublist(String[] array, int amount) {
@@ -137,40 +150,18 @@ public class Ping_RecyclerView extends Fragment {
 
 
     /**
-     *
+     *  Saving all data to database
      * @param date current date to save in database
      * @param time  current time to save in database
      * @param host_id host or Ip to save in data base
      */
-    public void saveTOdatabase(String date , String time , String host_id)
+    public void saveTOdatabase(String host_id , String date , String time)
     {
 
-        // saving to data base;
-        Ping_Host_Model ping_hostModel = new Ping_Host_Model(date, time,host_id);
-        ping_hostModel.save();
+        DB_Add.AddToDatabse(host_id, date, time);
 
     }
 
 
-    /**
-     *
-     * @return Current date
-     */
-    public String getCurrentDate()
-    {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        return df.format(c.getTime());
-    }
-
-
-    /**
-     *
-     * @return Current Time
-     */
-    public static String getCurrentTime()
-    {
-        return new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-    }
 
 }

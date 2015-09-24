@@ -1,17 +1,17 @@
 package teamdapsr.networking.DB_Model;
 
 
-
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import java.io.Serializable;
 
 /**
  * Created by rajanmaurya on 20/9/15.
  */
 
     @Table(name = "Ping_Host")
-    public class Ping_Host_Model extends Model{
+    public class Ping_Host_Model extends Model implements Serializable {
 
         @Column(name = "host")
         public String host ;
@@ -46,6 +46,17 @@ import com.activeandroid.annotation.Table;
 
         }
 
+
+    @Override
+    public String toString() {
+        return " Host Name: "
+                + host
+                + " Host_date: "
+                + host_date
+                + " Host_time: "
+                + host_time;
+
+    }
 
     /**
      *

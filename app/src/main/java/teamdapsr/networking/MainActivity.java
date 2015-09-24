@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teamdapsr.networking.Fragment.Ping_RecyclerView;
+import teamdapsr.networking.Utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new Utils(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

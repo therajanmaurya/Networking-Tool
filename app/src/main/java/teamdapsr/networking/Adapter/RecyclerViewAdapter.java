@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import teamdapsr.networking.CheeseDetailActivity;
-import teamdapsr.networking.DB_Model.Model;
+import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.R;
 
 /**
@@ -28,9 +27,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private List<String> mValues;
         private String date;
         private String time;
+        private ArrayList<Ping_Host_Model> Ping_array;
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public String mBoundString;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+            //public String mBoundString;
 
             public final View mView;
             public final ImageView mImageView;
@@ -57,10 +57,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return mValues.get(position);
         }
 
-        public RecyclerViewAdapter(Context context, List<String> items, String datetime, String currentTime) {
+        public RecyclerViewAdapter(Context context, List<Ping_Host_Model> items, String datetime, String currentTime) {
             context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
             mBackground = mTypedValue.resourceId;
-            mValues = items;
+            this.Ping_array = (ArrayList<Ping_Host_Model>) items;
             this.date = datetime;
             this.time = currentTime;
         }
@@ -75,30 +75,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mBoundString = mValues.get(position);
-            holder.mTextView.setText(mValues.get(position));
-            holder.Hdate.setText(date);
-            holder.Htime.setText(time);
+            holder.mTextView.setText(Ping_array.get(position).getHost());
+            holder.Hdate.setText(Ping_array.get(position).getHost_date());
+            holder.Htime.setText(Ping_array.get(position).getHost_time());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, CheeseDetailActivity.class);
-                    intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
+                    intent.putExtra(CheeseDetailActivity.EXTRA_NAME, "fgdhgjhb");
 
                     context.startActivity(intent);
                 }
             });
 
-            Glide.with(holder.mImageView.getContext())
-                    .load(Model.getRandomCheeseDrawable())
-                    .fitCenter()
-                    .into(holder.mImageView);
+            holder.mImageView.setImageResource(R.drawable.cheese_1);
+
+//            Glide.with(holder.mImageView.getContext())
+//                    .load(Model.getRandomCheeseDrawable())
+//                    .fitCenter()
+//                    .into(holder.mImageView);
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return Ping_array.size();
         }
     }
