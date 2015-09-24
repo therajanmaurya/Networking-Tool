@@ -34,4 +34,10 @@
   <string name="ip1">192.168.0.34</string>
   <string name="ip2">10.49.2.190</string>
 
+  <string-array name="Long_click">
+    <item>Start</item>
+    <item>Edit</item>
+    <item>Delete</item>
+  </string-array>
+
 </resources>

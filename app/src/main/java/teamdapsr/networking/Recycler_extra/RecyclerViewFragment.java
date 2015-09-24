@@ -31,6 +31,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.activeandroid.query.Delete;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -80,6 +81,27 @@ public class RecyclerViewFragment extends Fragment implements RecyclerItemClickL
 
     @Override
     public void onItemLongPress(View childView, int position) {
+
+       final  int listPosition = position;
+        new MaterialDialog.Builder(getActivity())
+                .title("Are You Sure")
+                .items(R.array.Long_click)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        if(which == 0){
+                            //start
+                        }else if(which == 1){
+                            // edit
+                        }else if(which == 2){
+                            new Delete().from(Ping_Host_Model.class)
+                                    .where("host = ?", ping_host_models.get(listPosition).getHost()).execute();
+                            ping_host_models.remove(listPosition);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                })
+                .show();
 
     }
 
