@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import teamdapsr.networking.CheeseDetailActivity;
@@ -98,7 +96,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public int getItemCount() {
-            Log.i(LOG_TAG , "" + Ping_array.size());
+            //Log.i(LOG_TAG , "" + Ping_array.size());
             return Ping_array.size();
         }
     }

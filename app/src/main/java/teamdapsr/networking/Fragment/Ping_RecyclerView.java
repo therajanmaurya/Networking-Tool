@@ -26,12 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +36,7 @@ import teamdapsr.networking.Adapter.RecyclerViewAdapter;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DBhelper.DB_Add;
 import teamdapsr.networking.DBhelper.DB_Select_All;
-import teamdapsr.networking.MainActivity;
 import teamdapsr.networking.R;
-import teamdapsr.networking.Utils.Utils;
 
 public class Ping_RecyclerView extends Fragment {
 
@@ -66,74 +60,75 @@ public class Ping_RecyclerView extends Fragment {
         setupRecyclerView(recyclerView);
 
 
-        MainActivity.floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                /**
-                 * Material Dialog
-                 */
-                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                        .title("New Host")
-                        .customView(R.layout.dialog_customview, true)
-                        .positiveText("Ping")
-                        .negativeText("Cancel")
-                        .callback(new MaterialDialog.ButtonCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog dialog) {
-
-                                if (Add_list_status) {
-
-                                    //Add to database and open new activity to show ping
-
-                                    String host_data = host.getText().toString();
-                                    String date = Utils.getCurrentDate();
-                                    String time = Utils.getCurrentTime();
-                                    saveTOdatabase(host_data, date, time);
-
-
-                                } else {
-                                    // open new activity to show ping
-
-                                    String host_data = host.getText().toString();
-                                    String date = Utils.getCurrentDate();
-                                    String time = Utils.getCurrentTime();
-                                    saveTOdatabase(host_data, date, time);
-
-
-                                }
-
-
-                            }
-
-                            @Override
-                            public void onNegative(MaterialDialog dialog) {
-                            }
-                        }).build();
-
-                positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
-                host = (EditText) dialog.getCustomView().findViewById(R.id.password);
-                Add_list = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
-
-                Add_list.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                        Log.i(LOG_TAG, "" + isChecked);
-                        Add_list_status = isChecked;
-
-                    }
-                });
-
-                dialog.show();
-            }
-        });
+//        MainActivity.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                /**
+//                 * Material Dialog
+//                 */
+//                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+//                        .title("New Host")
+//                        .customView(R.layout.dialog_customview, true)
+//                        .positiveText("Ping")
+//                        .negativeText("Cancel")
+//                        .callback(new MaterialDialog.ButtonCallback() {
+//                            @Override
+//                            public void onPositive(MaterialDialog dialog) {
+//
+//                                if (Add_list_status) {
+//
+//                                    //Add to database and open new activity to show ping
+//
+//                                    String host_data = host.getText().toString();
+//                                    String date = Utils.getCurrentDate();
+//                                    String time = Utils.getCurrentTime();
+//                                    saveTOdatabase(host_data, date, time);
+//
+//
+//                                } else {
+//                                    // open new activity to show ping
+//
+//                                    String host_data = host.getText().toString();
+//                                    String date = Utils.getCurrentDate();
+//                                    String time = Utils.getCurrentTime();
+//                                    saveTOdatabase(host_data, date, time);
+//
+//
+//                                }
+//
+//
+//                            }
+//
+//                            @Override
+//                            public void onNegative(MaterialDialog dialog) {
+//                            }
+//                        }).build();
+//
+//                positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
+//                host = (EditText) dialog.getCustomView().findViewById(R.id.password);
+//                Add_list = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
+//
+//                Add_list.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                        Log.i(LOG_TAG, "" + isChecked);
+//                        Add_list_status = isChecked;
+//
+//                    }
+//                });
+//
+//                dialog.show();
+//            }
+//        });
 
         return layout;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerView.setHasFixedSize(true);
         ping_host_models = new ArrayList<>();
         ping_host_models =  DB_Select_All.Select_All();
         recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), (ArrayList<Ping_Host_Model>) ping_host_models);

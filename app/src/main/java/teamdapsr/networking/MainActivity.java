@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teamdapsr.networking.Fragment.Ping_RecyclerView;
+import teamdapsr.networking.Recycler_extra.RecyclerViewFragment;
 import teamdapsr.networking.Utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new Ping_RecyclerView(), "Ping");
+        adapter.addFragment(new RecyclerViewFragment(), "Ping");
         adapter.addFragment(new Ping_RecyclerView(), "Category 2");
         adapter.addFragment(new Ping_RecyclerView(), "Category 3");
         viewPager.setAdapter(adapter);
