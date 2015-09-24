@@ -1,5 +1,6 @@
 package teamdapsr.networking.DBhelper;
 
+import teamdapsr.networking.DB_Model.Date_Time_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 
 /**
@@ -14,15 +15,19 @@ public class DB_Add {
         /**
          * Setting up the value
          */
-        Ping_Host_Model ping_host_model = new Ping_Host_Model();
-        ping_host_model.setHost(host);
-        ping_host_model.setHost_date(date);
-        ping_host_model.setHost_time(time);
+
+        Date_Time_Model date_time_model = new Date_Time_Model(date ,time);
+
+        date_time_model.save();
+        Ping_Host_Model ping_host_model = new Ping_Host_Model(host ,date_time_model);
+
 
         /**
          * Saving Value into Table using ActiveAndroid save() method
          */
         ping_host_model.save();
+
+
 
     }
 

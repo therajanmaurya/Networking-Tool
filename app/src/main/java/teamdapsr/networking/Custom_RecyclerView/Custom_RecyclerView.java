@@ -18,6 +18,7 @@ public class Custom_RecyclerView extends RecyclerView {
 
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
+
                 checkIfEmpty();
             }
 
@@ -52,10 +53,12 @@ public class Custom_RecyclerView extends RecyclerView {
             final Adapter oldAdapter = getAdapter();
             if (oldAdapter != null) {
                 oldAdapter.unregisterAdapterDataObserver(observer);
+
             }
             super.setAdapter(adapter);
             if (adapter != null) {
                 adapter.registerAdapterDataObserver(observer);
+                adapter.notifyDataSetChanged();
             }
 
             checkIfEmpty();

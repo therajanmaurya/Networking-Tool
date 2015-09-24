@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.util.Log;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import teamdapsr.networking.CheeseDetailActivity;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
@@ -22,11 +23,9 @@ import teamdapsr.networking.R;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
+        public String LOG_TAG = getClass().getSimpleName();
         private final TypedValue mTypedValue = new TypedValue();
         private int mBackground;
-        private List<String> mValues;
-        private String date;
-        private String time;
         private ArrayList<Ping_Host_Model> Ping_array;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,15 +53,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         public String getValueAt(int position) {
-            return mValues.get(position);
+            return Ping_array.get(position).getHost();
         }
 
-        public RecyclerViewAdapter(Context context, List<Ping_Host_Model> items, String datetime, String currentTime) {
+        public RecyclerViewAdapter(Context context, ArrayList<Ping_Host_Model> items) {
             context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
             mBackground = mTypedValue.resourceId;
-            this.Ping_array = (ArrayList<Ping_Host_Model>) items;
-            this.date = datetime;
-            this.time = currentTime;
+            this.Ping_array =  items;
+
         }
 
         @Override
@@ -76,8 +74,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mTextView.setText(Ping_array.get(position).getHost());
-            holder.Hdate.setText(Ping_array.get(position).getHost_date());
-            holder.Htime.setText(Ping_array.get(position).getHost_time());
+            holder.Hdate.setText(Ping_array.get(position).getDate_time_model().getHost_date());
+            holder.Htime.setText(Ping_array.get(position).getDate_time_model().getHost_time());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,6 +98,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public int getItemCount() {
+            Log.i(LOG_TAG , "" + Ping_array.size());
             return Ping_array.size();
         }
     }

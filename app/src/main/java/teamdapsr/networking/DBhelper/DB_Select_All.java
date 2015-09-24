@@ -13,11 +13,9 @@ public class DB_Select_All {
 
     public static List<Ping_Host_Model> Select_All(){
 
-        List<Ping_Host_Model> people = new Select()
+        return new Select()
                 .all()
                 .from(Ping_Host_Model.class)
                 .execute();
-
-        return people;
     }
 }

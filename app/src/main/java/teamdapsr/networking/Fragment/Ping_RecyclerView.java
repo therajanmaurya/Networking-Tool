@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,16 +30,14 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.activeandroid.util.Log;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import teamdapsr.networking.Adapter.RecyclerViewAdapter;
-import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
+import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DBhelper.DB_Add;
 import teamdapsr.networking.DBhelper.DB_Select_All;
 import teamdapsr.networking.MainActivity;
@@ -47,21 +47,22 @@ import teamdapsr.networking.Utils.Utils;
 public class Ping_RecyclerView extends Fragment {
 
     private TextView mTextEmptyList;
-    String LOG_TAG = getClass().getName();
-    private Custom_RecyclerView recyclerView ;
+    String LOG_TAG = getClass().getSimpleName();
+    private RecyclerView recyclerView ;
     private EditText host;
     private View positiveAction;
     CheckBox Add_list ;
     boolean Add_list_status = false;
-
+    public RecyclerViewAdapter recyclerViewAdapter;
+    public List<Ping_Host_Model> ping_host_models ;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_cheese_list, container, false);
 
-        mTextEmptyList = (TextView) layout.findViewById(R.id.list_empty_message);
-        recyclerView = (Custom_RecyclerView)layout.findViewById(R.id.recyclerview);
+       // mTextEmptyList = (TextView) layout.findViewById(R.id.list_empty_message);
+        recyclerView = (RecyclerView)layout.findViewById(R.id.recyclerview);
         setupRecyclerView(recyclerView);
 
 
@@ -81,23 +82,23 @@ public class Ping_RecyclerView extends Fragment {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
 
-                                if(Add_list_status){
+                                if (Add_list_status) {
 
                                     //Add to database and open new activity to show ping
 
                                     String host_data = host.getText().toString();
                                     String date = Utils.getCurrentDate();
                                     String time = Utils.getCurrentTime();
-                                    saveTOdatabase(host_data,date,time);
+                                    saveTOdatabase(host_data, date, time);
 
-                                }else
-                                {
+
+                                } else {
                                     // open new activity to show ping
 
                                     String host_data = host.getText().toString();
                                     String date = Utils.getCurrentDate();
                                     String time = Utils.getCurrentTime();
-                                    saveTOdatabase(host_data,date,time);
+                                    saveTOdatabase(host_data, date, time);
 
 
                                 }
@@ -131,22 +132,17 @@ public class Ping_RecyclerView extends Fragment {
         return layout;
     }
 
-    private void setupRecyclerView(Custom_RecyclerView recyclerView) {
+    private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        ping_host_models = new ArrayList<>();
+        ping_host_models =  DB_Select_All.Select_All();
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), (ArrayList<Ping_Host_Model>) ping_host_models);
+        recyclerView.setAdapter(recyclerViewAdapter);
+       // recyclerView.setEmptyView(mTextEmptyList);
 
-        recyclerView.setAdapter(new RecyclerViewAdapter(getActivity(), DB_Select_All.Select_All(), Utils.getCurrentDate(), Utils.getCurrentTime()));
-        recyclerView.setEmptyView(mTextEmptyList);
 
     }
 
-    private List<String> getRandomSublist(String[] array, int amount) {
-        ArrayList<String> list = new ArrayList<>(amount);
-        Random random = new Random();
-        while (list.size() < amount) {
-            list.add(array[random.nextInt(array.length)]);
-        }
-        return list;
-    }
 
 
     /**
@@ -159,6 +155,10 @@ public class Ping_RecyclerView extends Fragment {
     {
 
         DB_Add.AddToDatabse(host_id, date, time);
+        ping_host_models = DB_Select_All.Select_All();
+        Log.i(LOG_TAG, "" + ping_host_models.size());
+        recyclerView.setAdapter(recyclerViewAdapter);
+
 
     }
 

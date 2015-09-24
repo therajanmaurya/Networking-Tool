@@ -19,21 +19,21 @@
     android:gravity="center_vertical|center_horizontal"
     android:orientation="horizontal">
 
-    <teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:layout_marginLeft="0dp" />
 
-    <TextView
-        android:id="@+id/list_empty_message"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Oops, Nothing To Show" >
-    </TextView>
+    <!--<TextView-->
+        <!--android:id="@+id/list_empty_message"-->
+        <!--style="?android:attr/textAppearanceLarge"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Oops, Nothing To Show" >-->
+    <!--</TextView>-->
 
 
 </RelativeLayout>
