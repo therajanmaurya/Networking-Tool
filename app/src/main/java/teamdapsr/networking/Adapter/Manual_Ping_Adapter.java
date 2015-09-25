@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package teamdapsr.networking.Recycler_extra;
+package teamdapsr.networking.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +34,7 @@ import teamdapsr.networking.R;
 /**
  * Provide views to RecyclerView with data from mDataSet.
  */
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class Manual_Ping_Adapter extends RecyclerView.Adapter<Manual_Ping_Adapter.ViewHolder> {
     private static final String TAG = "CustomAdapter";
 
 
@@ -97,7 +97,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      *
      * @param ping_host_modelArryList String[] containing the data to populate views to be used by RecyclerView.
      */
-    public CustomAdapter(Context context , ArrayList<Ping_Host_Model> ping_host_modelArryList) {
+    public Manual_Ping_Adapter(Context context, ArrayList<Ping_Host_Model> ping_host_modelArryList) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
         this.Ping_array =  ping_host_modelArryList;

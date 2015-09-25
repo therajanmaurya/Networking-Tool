@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package teamdapsr.networking.Recycler_extra;
+package teamdapsr.networking.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,18 +45,19 @@ import teamdapsr.networking.DBhelper.DB_Add;
 import teamdapsr.networking.DBhelper.DB_Select_All;
 import teamdapsr.networking.MainActivity;
 import teamdapsr.networking.R;
+import teamdapsr.networking.Adapter.Manual_Ping_Adapter;
 import teamdapsr.networking.Utils.Utils;
 
 /**
  * Demonstrates the use of {@link RecyclerView} with a {@link LinearLayoutManager} and a
  * {@link GridLayoutManager}.
  */
-public class RecyclerViewFragment extends Fragment implements RecyclerItemClickListner.OnItemClickListener{
+public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickListner.OnItemClickListener{
 
     private final String TAG = getClass().getSimpleName();
 
     protected RecyclerView mRecyclerView;
-    protected CustomAdapter mAdapter;
+    protected Manual_Ping_Adapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
 
     private TextView mTextEmptyList;
@@ -125,7 +126,7 @@ public class RecyclerViewFragment extends Fragment implements RecyclerItemClickL
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListner(getActivity(), this));
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new CustomAdapter(getActivity() , ping_host_models);
+        mAdapter = new Manual_Ping_Adapter(getActivity() , ping_host_models);
         mRecyclerView.setAdapter(mAdapter);
 
 
