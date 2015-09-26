@@ -17,7 +17,6 @@
 package teamdapsr.networking.Adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -28,13 +27,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.R;
 
 /**
  * Provide views to RecyclerView with data from mDataSet.
  */
-public class Manual_Ping_Adapter extends RecyclerView.Adapter<Manual_Ping_Adapter.ViewHolder> {
+public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping_Adapter.ViewHolder> {
     private static final String TAG = "CustomAdapter";
 
 
@@ -48,7 +48,7 @@ public class Manual_Ping_Adapter extends RecyclerView.Adapter<Manual_Ping_Adapte
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends Custom_RecyclerView.ViewHolder {
 
 
 

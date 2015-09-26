@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
  Copyright 2014 The Android Open Source Project
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +19,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/activatedBackgroundIndicator"/>
+        android:background="?android:attr/activatedBackgroundIndicator" />
+
+    <TextView
+        android:id="@+id/list_empty_message"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Oops, Nothing To Show"></TextView>
 </LinearLayout>

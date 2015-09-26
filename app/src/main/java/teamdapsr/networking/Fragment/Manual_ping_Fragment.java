@@ -38,14 +38,15 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.ArrayList;
 
 import teamdapsr.networking.Activity_ping_to_domain.Ping_To_Domain;
+import teamdapsr.networking.Adapter.Manual_Ping_Adapter;
 import teamdapsr.networking.Adapter.RecyclerItemClickListner;
+import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
 import teamdapsr.networking.DB_Model.Date_Time_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DBhelper.DB_Add;
 import teamdapsr.networking.DBhelper.DB_Select_All;
 import teamdapsr.networking.MainActivity;
 import teamdapsr.networking.R;
-import teamdapsr.networking.Adapter.Manual_Ping_Adapter;
 import teamdapsr.networking.Utils.Utils;
 
 /**
@@ -56,9 +57,9 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
 
     private final String TAG = getClass().getSimpleName();
 
-    protected RecyclerView mRecyclerView;
+    protected Custom_RecyclerView mRecyclerView;
     protected Manual_Ping_Adapter mAdapter;
-    protected RecyclerView.LayoutManager mLayoutManager;
+    protected Custom_RecyclerView.LayoutManager mLayoutManager;
 
     private TextView mTextEmptyList;
     String LOG_TAG = getClass().getSimpleName();
@@ -120,14 +121,15 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.manual_ping_recyclerview, container, false);
         rootView.setTag(TAG);
-
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        mTextEmptyList = (TextView) rootView.findViewById(R.id.list_empty_message);
+        mRecyclerView = (Custom_RecyclerView) rootView.findViewById(R.id.recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListner(getActivity(), this));
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new Manual_Ping_Adapter(getActivity() , ping_host_models);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setEmptyView(mTextEmptyList);
 
 
         MainActivity.floatingActionButton.setOnClickListener(new View.OnClickListener() {
