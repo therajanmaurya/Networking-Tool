@@ -41,9 +41,9 @@ public class Run_ping extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Ping ping = new Ping(context , process , runtime ,editText.getText().toString());
-                Thread thread = new Thread(ping);
-                thread.start();
+//                Ping ping = new Ping(context , process , runtime ,editText.getText().toString());
+//                Thread thread = new Thread(ping);
+//                thread.start();
 
 
             }

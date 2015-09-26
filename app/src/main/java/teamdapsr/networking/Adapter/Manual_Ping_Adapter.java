@@ -114,6 +114,7 @@ public class Manual_Ping_Adapter extends RecyclerView.Adapter<Manual_Ping_Adapte
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.list_item, viewGroup, false);
         v.setBackgroundResource(mBackground);
+        v.setSelected(true);
         return new ViewHolder(v);
     }
 

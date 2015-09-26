@@ -1,7 +1,9 @@
 package teamdapsr.networking.ping;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +21,9 @@ public class Ping implements Runnable
     private Runtime runtime;
     private String host;
     private BufferedReader in = null;
-    private String PingResult = "";;
+    private String PingResult = "";
+    public TextView data ;
+    public Handler handler ;
 
 
     @Override
@@ -41,12 +45,14 @@ public class Ping implements Runnable
      * @param runtime   Runtime to command in terminal
      * @param host      host value (IP Address to Ping)
      */
-    public Ping(Context context , Process process , Runtime runtime , String host)
+    public Ping(Context context , Process process , Runtime runtime , String host , TextView data  ,Handler handler)
     {
         this.Ping_context = context;
         this.process = process;
         this.runtime = runtime;
         this.host = host;
+        this.data = data;
+        this.handler = handler;
 
     }
 
@@ -59,7 +65,7 @@ public class Ping implements Runnable
     public void PingRequest() throws IOException, InterruptedException
     {
 
-            process = runtime.exec("ping -i .2 -c 1 "+host);
+            process = runtime.exec("ping -i .2 -c 3 "+host);
             process.waitFor();
             PingData(process);
 
@@ -80,6 +86,13 @@ public class Ping implements Runnable
         while ((inputLine = in.readLine()) != null) {
             System.out.println(inputLine);
             PingResult += inputLine;
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    data.setText(PingResult);
+                }
+            });
 
         }
         in.close();
