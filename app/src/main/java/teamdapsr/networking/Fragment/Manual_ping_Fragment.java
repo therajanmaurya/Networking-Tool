@@ -152,11 +152,14 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
 
                                     //Add to database and open new activity to show ping
 
-
+                                    Add_list_status = false;
                                     String host_data = host.getText().toString();
                                     String date = Utils.getCurrentDate();
                                     String time = Utils.getCurrentTime();
                                     saveTOdatabase(host_data, date, time);
+                                    Intent intent = new Intent(getActivity(), Ping_To_Domain.class);
+                                    intent.putExtra(Ping_To_Domain.EXTRA_domain , host_data);
+                                    startActivity(intent);
                                     Log.i(LOG_TAG, "list value" + ping_host_models.size());
 
 
@@ -164,9 +167,9 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
                                     // open new activity to show ping
 
                                     String host_data = host.getText().toString();
-                                    String date = Utils.getCurrentDate();
-                                    String time = Utils.getCurrentTime();
-                                    saveTOdatabase(host_data, date, time);
+                                    Intent intent = new Intent(getActivity(), Ping_To_Domain.class);
+                                    intent.putExtra(Ping_To_Domain.EXTRA_domain , host_data);
+                                    startActivity(intent);
                                     Log.i(LOG_TAG, "click list value" + ping_host_models.size());
 
 
