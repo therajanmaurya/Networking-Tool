@@ -79,25 +79,33 @@ public class Ping implements Runnable
      * @throws IOException
      * @throws NullPointerException
      */
-    public void PingData( Process process) throws IOException , NullPointerException{
+    public void PingData( final Process process) throws IOException , NullPointerException{
 
-        in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            System.out.println(inputLine);
-            PingResult += inputLine;
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    data.setText(PingResult);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String inputLine;
+                try {
+                    while ((inputLine = in.readLine()) != null) {
+                        System.out.println(inputLine);
+                        PingResult += inputLine;
+                        Log.i(LOG_TAG, "INTO Handler");
+                        data.setText(PingResult);
+
+                    }
+                    in.close();
+                } catch (IOException e) {
+                    data.setText("Host Unreachable");
+                    e.printStackTrace();
                 }
-            });
 
-        }
-        in.close();
 
-        PingDataAnalysis(PingResult);
+                PingDataAnalysis(PingResult);
+            }
+        });
+
 
     }
 
