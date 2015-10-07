@@ -21,6 +21,7 @@ import java.util.List;
 
 import teamdapsr.networking.Fragment.Ping_RecyclerView;
 import teamdapsr.networking.Fragment.Manual_ping_Fragment;
+import teamdapsr.networking.Fragment.Whois;
 import teamdapsr.networking.Utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
 
+        viewPager.setOffscreenPageLimit(0);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
 //        floatingActionButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new Manual_ping_Fragment(), "Ping");
-        adapter.addFragment(new Ping_RecyclerView(), "Category 2");
+        adapter.addFragment(new Whois(), "Whois");
         adapter.addFragment(new Ping_RecyclerView(), "Category 3");
         viewPager.setAdapter(adapter);
     }
