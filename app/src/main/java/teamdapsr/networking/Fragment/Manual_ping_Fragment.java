@@ -37,7 +37,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 
-import teamdapsr.networking.Activity_ping_to_domain.Ping_To_Domain;
+import teamdapsr.networking.Activity.Ping_To_Domain;
 import teamdapsr.networking.Adapter.Manual_Ping_Adapter;
 import teamdapsr.networking.Adapter.RecyclerItemClickListner;
 import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;

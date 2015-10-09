@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity_ping_to_domain.Ping_To_Domain"
+        <activity android:name=".Activity.Ping_To_Domain"
                     android:theme="@style/Single.Activity.Theme">
 
         </activity>

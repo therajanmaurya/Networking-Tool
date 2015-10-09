@@ -1,4 +1,4 @@
-package teamdapsr.networking.Activity_ping_to_domain;
+package teamdapsr.networking.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
