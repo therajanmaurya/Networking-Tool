@@ -51,7 +51,6 @@ import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DB_Model.Traceroute_model;
 import teamdapsr.networking.DBhelper.DB_Add;
 import teamdapsr.networking.DBhelper.DB_Select_All;
-import teamdapsr.networking.MainActivity;
 import teamdapsr.networking.R;
 import teamdapsr.networking.Utils.Utils;
 
