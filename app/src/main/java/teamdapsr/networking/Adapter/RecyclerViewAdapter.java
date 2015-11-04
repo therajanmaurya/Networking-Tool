@@ -1,7 +1,6 @@
 package teamdapsr.networking.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import teamdapsr.networking.CheeseDetailActivity;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.R;
 
@@ -75,7 +73,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.Hdate.setText(Ping_array.get(position).getDate_time_model().getHost_date());
             holder.Htime.setText(Ping_array.get(position).getDate_time_model().getHost_time());
 
-            holder.mView.setOnClickListener(new View.OnClickListener() {
+            /*holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
@@ -84,7 +82,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     context.startActivity(intent);
                 }
-            });
+            });*/
 
             holder.mImageView.setImageResource(R.drawable.cheese_1);
 

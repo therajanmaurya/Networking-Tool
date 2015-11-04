@@ -58,7 +58,7 @@ import teamdapsr.networking.Utils.Utils;
  * Demonstrates the use of {@link RecyclerView} with a {@link LinearLayoutManager} and a
  * {@link GridLayoutManager}.
  */
-public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickListner.OnItemClickListener{
+public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickListner.OnItemClickListener{
 
     private final String TAG = getClass().getSimpleName();
 
@@ -77,12 +77,12 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
 
 
 	@SuppressLint("ValidFragment")
-	public Manual_ping_Fragment(int Position)
+	public Ping_Trace_Fragment(int Position)
 	{
 		this.viewposition = Position;
 	}
 
-	public Manual_ping_Fragment()
+	public Ping_Trace_Fragment()
 	{
 
 	}

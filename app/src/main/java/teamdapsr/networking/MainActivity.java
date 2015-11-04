@@ -1,7 +1,6 @@
 package teamdapsr.networking;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import teamdapsr.networking.Fragment.Manual_ping_Fragment;
+import teamdapsr.networking.Fragment.Ping_Trace_Fragment;
 import teamdapsr.networking.Fragment.Whois;
 import teamdapsr.networking.Utils.Utils;
 
@@ -77,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new Manual_ping_Fragment(1), "Ping");
-		adapter.addFragment(new Manual_ping_Fragment(2), "Traceroute");
+        adapter.addFragment(new Ping_Trace_Fragment(1), "Ping");
+		adapter.addFragment(new Ping_Trace_Fragment(2), "Traceroute");
         adapter.addFragment(new Whois(), "Whois");
         viewPager.setAdapter(adapter);
     }
