@@ -2,6 +2,7 @@ package teamdapsr.networking.Activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,16 +37,13 @@ public class TraceActivity extends Activity {
 	public static final String EXTRA_domain= "domain";
 	public static final String tag = "TraceroutePing";
 	public static final String INTENT_TRACE = "INTENT_TRACE";
-
+	String domain ;
 	private Button buttonLaunch;
-	private EditText editTextPing;
 	private ProgressBar progressBarPing;
 	private ListView listViewTraceroute;
 	private TraceListAdapter traceListAdapter;
-
 	private TracerouteWithPing tracerouteWithPing;
 	private final int maxTtl = 40;
-
 	private List<TracerouteContainer> traces;
 
 	/**
@@ -56,11 +54,16 @@ public class TraceActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_trace);
 
+		/**
+		 * Domain or IP Address to Ping
+		 */
+		Intent intent = getIntent();
+		domain = intent.getStringExtra(EXTRA_domain);
+
 		this.tracerouteWithPing = new TracerouteWithPing(this);
 		this.traces = new ArrayList<TracerouteContainer>();
 
-		this.buttonLaunch = (Button) this.findViewById(R.id.buttonLaunch);
-		this.editTextPing = (EditText) this.findViewById(R.id.editTextPing);
+		this.buttonLaunch = (Button) this.findViewById(R.id.buttonLaunch);;
 		this.listViewTraceroute = (ListView) this.findViewById(R.id.listViewTraceroute);
 		this.progressBarPing = (ProgressBar) this.findViewById(R.id.progressBarPing);
 
@@ -71,30 +74,26 @@ public class TraceActivity extends Activity {
 	 * initView, init the main view components (action, adapter...)
 	 */
 	private void initView() {
-		buttonLaunch.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (editTextPing.getText().length() == 0) {
-					Toast.makeText(TraceActivity.this, getString(R.string.no_text), Toast.LENGTH_SHORT).show();
-				} else {
-					traces.clear();
-					traceListAdapter.notifyDataSetChanged();
-					startProgressBar();
-					hideSoftwareKeyboard(editTextPing);
-					tracerouteWithPing.executeTraceroute(editTextPing.getText().toString(), maxTtl);
-				}
-			}
-		});
 
 		traceListAdapter = new TraceListAdapter(getApplicationContext());
 		listViewTraceroute.setAdapter(traceListAdapter);
+
+        if (domain.length() == 0) {
+            Toast.makeText(TraceActivity.this, getString(R.string.no_text), Toast.LENGTH_SHORT).show();
+        } else {
+            traces.clear();
+            traceListAdapter.notifyDataSetChanged();
+            startProgressBar();
+            //hideSoftwareKeyboard(editTextPing);
+            tracerouteWithPing.executeTraceroute(domain, maxTtl);
+        }
+
 	}
 
 	/**
 	 * Allows to refresh the listview of traces
 	 * 
-	 * @param traces
-	 *            The list of traces to refresh
+	 * @param trace The list of traces to refresh
 	 */
 	public void refreshList(TracerouteContainer trace) {
 		final TracerouteContainer fTrace = trace;
