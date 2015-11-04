@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import teamdapsr.networking.R;
@@ -21,6 +22,7 @@ public class Ping_To_Domain  extends AppCompatActivity{
     private Handler handler;
     Process process ;
     Runtime runtime ;
+    private Toolbar ping_toolbar;
 
 
 
@@ -36,6 +38,10 @@ public class Ping_To_Domain  extends AppCompatActivity{
         Intent intent = getIntent();
         domain = intent.getStringExtra(EXTRA_domain);
 
+        ping_toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        ping_toolbar.setTitle(domain);
+        setSupportActionBar(ping_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         domain_name = (TextView)findViewById(R.id.IP);
         pingdata = (TextView)findViewById(R.id.PingData);
