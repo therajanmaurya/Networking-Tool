@@ -26,7 +26,6 @@ import teamdapsr.networking.Utils.Utils;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-    public static FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +54,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         viewPager.setOffscreenPageLimit(0);
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

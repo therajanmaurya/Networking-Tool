@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -157,26 +158,26 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setEmptyView(mTextEmptyList);
 
-
-        MainActivity.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton floatingActionButton = (FloatingActionButton)rootView.findViewById(R.id.ping_trace);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                /**
+                 * Material Dialog
+                 */
 
-				/**
-				 * Material Dialog
-				 */
 
+                if(viewposition == 1)
+                {
+                    FabDialog(viewposition,"New Host" ,"Ping");
+                }else if(viewposition == 2)
+                {
+                    FabDialog(viewposition,"New Host" ,"Trace Host");
+                }
 
-				if(viewposition == 1)
-				{
-					FabDialog(viewposition,"New Host" ,"Ping");
-				}else if(viewposition == 2)
-				{
-					FabDialog(viewposition,"New Host" ,"Trace Host");
-				}
-
-			}
+            }
         });
+
 
 
         return rootView;
