@@ -37,6 +37,7 @@ import android.widget.TextView;
 import com.activeandroid.query.Delete;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 
 import java.util.ArrayList;
 
@@ -225,6 +226,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 				.customView(R.layout.dialog_customview, true)
 				.positiveText(positivetext)
 				.negativeText("CANCEL")
+				.theme(Theme.LIGHT)
 				.callback(new MaterialDialog.ButtonCallback() {
 					@Override
 					public void onPositive(MaterialDialog dialog) {
@@ -239,7 +241,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 							String time = Utils.getCurrentTime();
 
 							saveTOdatabase(host_data, date, time);
-							startactivity(viewposition , host_data , Ping_To_Domain.class , TraceActivity.class);
+							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class);
 							Log.i(LOG_TAG, "list value" + ping_host_models.size());
 
 
@@ -248,7 +250,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 
 							String host_data = host.getText().toString();
 
-							startactivity(viewposition , host_data , Ping_To_Domain.class , TraceActivity.class);
+							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class);
 							Log.i(LOG_TAG, "click list value" + ping_host_models.size());
 
 
