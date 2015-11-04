@@ -22,8 +22,10 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Single.Activity.Theme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="Toolbartext" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorPrimary">#E1BEE7</item>
+        <item name="actionMenuTextColor">#E1BEE7</item>
+        <item name="android:textColorSecondary">#E1BEE7</item>
     </style>
 
 </resources>

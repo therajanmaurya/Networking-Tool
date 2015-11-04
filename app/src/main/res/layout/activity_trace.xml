@@ -2,27 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".TraceActivity" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
-        android:id="@+id/buttonLaunch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="Trace Route The IP" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar1"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/Base.Theme.DesignDemo"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="?attr/actionBarSize" />
 
     <ListView
         android:id="@+id/listViewTraceroute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonLaunch"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" >
+        android:layout_below="@+id/toolbar1">
     </ListView>
 
     <ProgressBar
@@ -30,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/listViewTraceroute"
-        android:layout_toRightOf="@+id/buttonLaunch"
         android:visibility="gone" />
 
 </RelativeLayout>

@@ -1,16 +1,16 @@
 package teamdapsr.networking.Activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,19 +32,19 @@ import teamdapsr.networking.TraceRoute.TracerouteWithPing;
  * @author Olivier Goutay
  * 
  */
-public class TraceActivity extends Activity {
+public class TraceActivity extends AppCompatActivity {
 
 	public static final String EXTRA_domain= "domain";
 	public static final String tag = "TraceroutePing";
 	public static final String INTENT_TRACE = "INTENT_TRACE";
 	String domain ;
-	private Button buttonLaunch;
 	private ProgressBar progressBarPing;
 	private ListView listViewTraceroute;
 	private TraceListAdapter traceListAdapter;
 	private TracerouteWithPing tracerouteWithPing;
 	private final int maxTtl = 40;
 	private List<TracerouteContainer> traces;
+    private Toolbar toolbar1;
 
 	/**
 	 * onCreate, init main components from view
@@ -60,10 +60,14 @@ public class TraceActivity extends Activity {
 		Intent intent = getIntent();
 		domain = intent.getStringExtra(EXTRA_domain);
 
+        toolbar1 = (Toolbar) findViewById(R.id.toolbar1);
+        toolbar1.setTitle(domain);
+        setSupportActionBar(toolbar1);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 		this.tracerouteWithPing = new TracerouteWithPing(this);
 		this.traces = new ArrayList<TracerouteContainer>();
-
-		this.buttonLaunch = (Button) this.findViewById(R.id.buttonLaunch);;
 		this.listViewTraceroute = (ListView) this.findViewById(R.id.listViewTraceroute);
 		this.progressBarPing = (ProgressBar) this.findViewById(R.id.progressBarPing);
 
@@ -205,5 +209,20 @@ public class TraceActivity extends Activity {
 	public void stopProgressBar() {
 		progressBarPing.setVisibility(View.GONE);
 	}
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
 
 }

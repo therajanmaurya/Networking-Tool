@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="192.168.43.169"
+        android:textColor="@color/black_color"
         android:textAppearance="?attr/textAppearanceListItem"
         android:layout_toRightOf="@+id/avatar"
         android:layout_toEndOf="@+id/avatar" />
