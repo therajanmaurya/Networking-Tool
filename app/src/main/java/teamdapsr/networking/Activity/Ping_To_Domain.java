@@ -38,7 +38,7 @@ public class Ping_To_Domain  extends AppCompatActivity{
         Intent intent = getIntent();
         domain = intent.getStringExtra(EXTRA_domain);
 
-        ping_toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        ping_toolbar = (Toolbar) findViewById(R.id.ping_toolbar);
         ping_toolbar.setTitle(domain);
         setSupportActionBar(ping_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
