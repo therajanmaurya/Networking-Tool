@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import teamdapsr.networking.Fragment.Ping_RecyclerView;
 import teamdapsr.networking.Fragment.Manual_ping_Fragment;
 import teamdapsr.networking.Fragment.Whois;
 import teamdapsr.networking.Utils.Utils;
@@ -87,9 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new Manual_ping_Fragment(), "Ping");
+        adapter.addFragment(new Manual_ping_Fragment(1), "Ping");
+		adapter.addFragment(new Manual_ping_Fragment(2), "Traceroute");
         adapter.addFragment(new Whois(), "Whois");
-        adapter.addFragment(new Ping_RecyclerView(), "Category 3");
         viewPager.setAdapter(adapter);
     }
 

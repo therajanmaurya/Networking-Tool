@@ -39,6 +39,11 @@
 
         </activity>
 
+        <activity android:name=".Activity.TraceActivity"
+                  android:theme="@style/Single.Activity.Theme">
+
+        </activity>
+
         <activity
             android:name=".CheeseDetailActivity"
             android:parentActivityName=".MainActivity">

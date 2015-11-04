@@ -33,6 +33,7 @@ import teamdapsr.networking.TraceRoute.TracerouteWithPing;
  */
 public class TraceActivity extends Activity {
 
+	public static final String EXTRA_domain= "domain";
 	public static final String tag = "TraceroutePing";
 	public static final String INTENT_TRACE = "INTENT_TRACE";
 

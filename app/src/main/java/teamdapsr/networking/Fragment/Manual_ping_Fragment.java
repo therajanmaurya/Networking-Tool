@@ -16,8 +16,10 @@
 
 package teamdapsr.networking.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,11 +40,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.ArrayList;
 
 import teamdapsr.networking.Activity.Ping_To_Domain;
+import teamdapsr.networking.Activity.TraceActivity;
 import teamdapsr.networking.Adapter.Manual_Ping_Adapter;
 import teamdapsr.networking.Adapter.RecyclerItemClickListner;
 import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
 import teamdapsr.networking.DB_Model.Date_Time_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
+import teamdapsr.networking.DB_Model.Traceroute_model;
 import teamdapsr.networking.DBhelper.DB_Add;
 import teamdapsr.networking.DBhelper.DB_Select_All;
 import teamdapsr.networking.MainActivity;
@@ -60,7 +64,7 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
     protected Custom_RecyclerView mRecyclerView;
     protected Manual_Ping_Adapter mAdapter;
     protected Custom_RecyclerView.LayoutManager mLayoutManager;
-
+	private int viewposition;
     private TextView mTextEmptyList;
     String LOG_TAG = getClass().getSimpleName();
     private EditText host;
@@ -68,17 +72,37 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
     CheckBox Add_list ;
     boolean Add_list_status = false;
     public ArrayList<Ping_Host_Model> ping_host_models ;
+	public ArrayList<Traceroute_model> traceroute_models;
 
+
+	@SuppressLint("ValidFragment")
+	public Manual_ping_Fragment(int Position)
+	{
+		this.viewposition = Position;
+	}
+
+	public Manual_ping_Fragment()
+	{
+
+	}
 
     @Override
     public void onItemClick(View childView, int position) {
-        Log.i(LOG_TAG , "The Position :" + position);
-        String domain = ping_host_models.get(position).getHost();
+        Log.i(LOG_TAG , "The viewposition :" + position);
+
+		String domain = null;
+		if(viewposition == 1)
+		{
+			domain = ping_host_models.get(position).getHost();
+
+		}else if(viewposition == 2)
+		{
+			domain = traceroute_models.get(position).getHost();
+		}
+
         Log.d(LOG_TAG ,"Domain is :" + domain);
 
-        Intent intent = new Intent(getActivity(), Ping_To_Domain.class);
-        intent.putExtra(Ping_To_Domain.EXTRA_domain , ping_host_models.get(position).getHost());
-        startActivity(intent);
+		startactivity(viewposition,domain, Ping_To_Domain.class, TraceActivity.class);
     }
 
     @Override
@@ -113,7 +137,9 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // ping_host_models = new ArrayList<>();
-        ping_host_models = (ArrayList<Ping_Host_Model>) DB_Select_All.Select_All();
+		ping_host_models = (ArrayList<Ping_Host_Model>) DB_Select_All.Select_AllPing();
+		traceroute_models = (ArrayList<Traceroute_model>) DB_Select_All.Select_AllTrace();
+
     }
 
     @Override
@@ -127,7 +153,7 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListner(getActivity(), this));
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new Manual_Ping_Adapter(getActivity() , ping_host_models);
+        mAdapter = new Manual_Ping_Adapter(getActivity() , viewposition, ping_host_models , traceroute_models);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setEmptyView(mTextEmptyList);
 
@@ -136,69 +162,20 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
             @Override
             public void onClick(View view) {
 
-                /**
-                 * Material Dialog
-                 */
-                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                        .title("New Host")
-                        .customView(R.layout.dialog_customview, true)
-                        .positiveText("Ping")
-                        .negativeText("Cancel")
-                        .callback(new MaterialDialog.ButtonCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog dialog) {
-
-                                if (Add_list_status) {
-
-                                    //Add to database and open new activity to show ping
-
-                                    Add_list_status = false;
-                                    String host_data = host.getText().toString();
-                                    String date = Utils.getCurrentDate();
-                                    String time = Utils.getCurrentTime();
-                                    saveTOdatabase(host_data, date, time);
-                                    Intent intent = new Intent(getActivity(), Ping_To_Domain.class);
-                                    intent.putExtra(Ping_To_Domain.EXTRA_domain , host_data);
-                                    startActivity(intent);
-                                    Log.i(LOG_TAG, "list value" + ping_host_models.size());
+				/**
+				 * Material Dialog
+				 */
 
 
-                                } else {
-                                    // open new activity to show ping
+				if(viewposition == 1)
+				{
+					FabDialog(viewposition,"New Host" ,"Ping");
+				}else if(viewposition == 2)
+				{
+					FabDialog(viewposition,"New Host" ,"Trace Host");
+				}
 
-                                    String host_data = host.getText().toString();
-                                    Intent intent = new Intent(getActivity(), Ping_To_Domain.class);
-                                    intent.putExtra(Ping_To_Domain.EXTRA_domain , host_data);
-                                    startActivity(intent);
-                                    Log.i(LOG_TAG, "click list value" + ping_host_models.size());
-
-
-                                }
-
-
-                            }
-
-                            @Override
-                            public void onNegative(MaterialDialog dialog) {
-                            }
-                        }).build();
-
-                positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
-                host = (EditText) dialog.getCustomView().findViewById(R.id.password);
-                Add_list = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
-
-                Add_list.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                        Log.i(LOG_TAG, "" + isChecked);
-                        Add_list_status = isChecked;
-
-                    }
-                });
-
-                dialog.show();
-            }
+			}
         });
 
 
@@ -212,21 +189,114 @@ public class Manual_ping_Fragment extends Fragment implements RecyclerItemClickL
      * @param time  current time to save in database
      * @param host_id host or Ip to save in data base
      */
-    public void saveTOdatabase(String host_id , String date , String time)
+    public void saveTOdatabase(String host_id, String date , String time)
     {
 
-        DB_Add.AddToDatabse(host_id, date, time);
+        DB_Add.AddToDatabse(viewposition, host_id, date, time);
 
         Date_Time_Model date_time_model = new Date_Time_Model(date ,time);
-        Ping_Host_Model ping_host_model = new Ping_Host_Model(host_id ,date_time_model);
-        ping_host_models.add(ping_host_model);
-        //mAdapter.notifyItemInserted(ping_host_models.size() - 1);
-        Log.i(LOG_TAG, "save to database : " + ping_host_models.size());
-        mAdapter.notifyDataSetChanged();
+
+		if(viewposition == 1)
+		{
+			Ping_Host_Model ping_host_model = new Ping_Host_Model(host_id ,date_time_model);
+			ping_host_models.add(ping_host_model);
+			//mAdapter.notifyItemInserted(ping_host_models.size() - 1);
+			Log.i(LOG_TAG, "save to database : " + ping_host_models.size());
+			mAdapter.notifyDataSetChanged();
+
+		}else if(viewposition ==2)
+		{
+			Traceroute_model traceroute = new Traceroute_model(host_id ,date_time_model);
+			traceroute_models.add(traceroute);
+			//mAdapter.notifyItemInserted(ping_host_models.size() - 1);
+			Log.i(LOG_TAG, "save to database : " + traceroute_models.size());
+			mAdapter.notifyDataSetChanged();
+		}
+
 
 
     }
 
+	public void FabDialog(final int viewposition , String title , String positivetext)
+	{
+		MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+				.title(title)
+				.customView(R.layout.dialog_customview, true)
+				.positiveText(positivetext)
+				.negativeText("CANCEL")
+				.callback(new MaterialDialog.ButtonCallback() {
+					@Override
+					public void onPositive(MaterialDialog dialog) {
+
+						if (Add_list_status) {
+
+							//Add to database and open new activity to show ping
+
+							Add_list_status = false;
+							String host_data = host.getText().toString();
+							String date = Utils.getCurrentDate();
+							String time = Utils.getCurrentTime();
+
+							saveTOdatabase(host_data, date, time);
+							startactivity(viewposition , host_data , Ping_To_Domain.class , TraceActivity.class);
+							Log.i(LOG_TAG, "list value" + ping_host_models.size());
+
+
+						} else {
+							// open new activity to show ping
+
+							String host_data = host.getText().toString();
+
+							startactivity(viewposition , host_data , Ping_To_Domain.class , TraceActivity.class);
+							Log.i(LOG_TAG, "click list value" + ping_host_models.size());
+
+
+						}
+
+
+					}
+
+					@Override
+					public void onNegative(MaterialDialog dialog) {
+					}
+				}).build();
+
+		positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
+		host = (EditText) dialog.getCustomView().findViewById(R.id.password);
+		Add_list = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
+
+		Add_list.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+				Log.i(LOG_TAG, "" + isChecked);
+				Add_list_status = isChecked;
+
+			}
+		});
+
+		dialog.show();
+	}
+
+
+	public void startactivity(int position , @Nullable String host_data , @Nullable Class pingintent , @Nullable Class traceintent)
+	{
+
+		switch (position)
+		{
+			case 1:
+				Intent intent = new Intent(getActivity(), pingintent);
+				intent.putExtra(Ping_To_Domain.EXTRA_domain, host_data);
+				startActivity(intent);
+				return;
+			case 2:
+				Intent trace = new Intent(getActivity(), traceintent);
+				trace.putExtra(TraceActivity.EXTRA_domain, host_data);
+				startActivity(trace);
+				return;
+		}
+		return;
+	}
 
 
 }

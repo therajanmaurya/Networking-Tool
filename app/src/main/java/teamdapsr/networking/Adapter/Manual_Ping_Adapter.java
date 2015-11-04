@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
+import teamdapsr.networking.DB_Model.Traceroute_model;
 import teamdapsr.networking.R;
 
 /**
@@ -42,6 +43,8 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
     private final TypedValue mTypedValue = new TypedValue();
     private int mBackground;
     private ArrayList<Ping_Host_Model> Ping_array;
+    private ArrayList<Traceroute_model> Trace_array;
+    private int pagerposition;
 
 
 
@@ -97,10 +100,12 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
      *
      * @param ping_host_modelArryList String[] containing the data to populate views to be used by RecyclerView.
      */
-    public Manual_Ping_Adapter(Context context, ArrayList<Ping_Host_Model> ping_host_modelArryList) {
+    public Manual_Ping_Adapter(Context context, int Position , ArrayList<Ping_Host_Model> ping_host_modelArryList , ArrayList<Traceroute_model> traceroute_models) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
+        this.pagerposition = Position;
         this.Ping_array =  ping_host_modelArryList;
+        this.Trace_array = traceroute_models;
     }
 
 
@@ -125,16 +130,32 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
 
-        viewHolder.gethost().setText(Ping_array.get(position).getHost());
-        viewHolder.getDate().setText(Ping_array.get(position).getDate_time_model().getHost_date());
-        viewHolder.gettime().setText(Ping_array.get(position).getDate_time_model().getHost_time());
-        viewHolder.getmImageView().setImageResource(R.drawable.cheese_1);
+        if(pagerposition == 1)
+        {
+            viewHolder.gethost().setText(Ping_array.get(position).getHost());
+            viewHolder.getDate().setText(Ping_array.get(position).getDate_time_model().getHost_date());
+            viewHolder.gettime().setText(Ping_array.get(position).getDate_time_model().getHost_time());
+            viewHolder.getmImageView().setImageResource(R.drawable.cheese_1);
+        }else if(pagerposition == 2)
+        {
+            viewHolder.gethost().setText(Trace_array.get(position).getHost());
+            viewHolder.getDate().setText(Trace_array.get(position).getDate_time_model().getHost_date());
+            viewHolder.gettime().setText(Trace_array.get(position).getDate_time_model().getHost_time());
+            viewHolder.getmImageView().setImageResource(R.drawable.cheese_2);
+        }
+
 
     }
 
 
     @Override
     public int getItemCount() {
-        return Ping_array.size();
+        switch (pagerposition){
+            case 1:
+                return Ping_array.size();
+            case 2:
+                return Trace_array.size();
+        }
+        return 0;
     }
 }
