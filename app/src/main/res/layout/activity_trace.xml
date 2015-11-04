@@ -12,7 +12,18 @@
         app:theme="@style/Base.Theme.DesignDemo"
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
-        android:layout_height="?attr/actionBarSize" />
+        android:layout_height="?attr/actionBarSize">
+
+
+        <ProgressBar
+            android:id="@+id/progressBarPing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:visibility="gone"
+            style="?android:attr/android:progressBarStyleSmall"/>
+
+    </android.support.v7.widget.Toolbar>
 
     <ListView
         android:id="@+id/listViewTraceroute"
@@ -22,11 +33,6 @@
         android:layout_below="@+id/toolbar1">
     </ListView>
 
-    <ProgressBar
-        android:id="@+id/progressBarPing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/listViewTraceroute"
-        android:visibility="gone" />
+
 
 </RelativeLayout>
