@@ -168,9 +168,9 @@ public class TraceActivity extends AppCompatActivity {
 			}
 
 			if (currentTrace.isSuccessful()) {
-				holder.imageViewStatusPing.setImageResource(R.drawable.check);
+				holder.imageViewStatusPing.setImageResource(R.drawable.ic_check_circle_black_24dp);
 			} else {
-				holder.imageViewStatusPing.setImageResource(R.drawable.cross);
+				holder.imageViewStatusPing.setImageResource(R.drawable.ic_clear_black_24dp);
 			}
 
 			holder.textViewNumber.setText(position + "");

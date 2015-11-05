@@ -46,7 +46,7 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_menu" />
+            android:src="@drawable/ic_add_circle_white_24dp" />
 
     </RelativeLayout>
 
