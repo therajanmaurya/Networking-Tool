@@ -9,7 +9,7 @@
         app:layout_collapseMode="pin"
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/Base.Theme.DesignDemo"
+        app:theme="@style/Single.Theme.DesignDemo"
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
         android:layout_height="?attr/actionBarSize">

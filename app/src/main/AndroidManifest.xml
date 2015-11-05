@@ -35,12 +35,12 @@
         </activity>
 
         <activity android:name=".Activity.Ping_To_Domain"
-                    android:theme="@style/Base.Theme.DesignDemo">
+                    android:theme="@style/Single.Theme.DesignDemo">
 
         </activity>
 
         <activity android:name=".Activity.TraceActivity"
-            android:theme="@style/Base.Theme.DesignDemo">
+            android:theme="@style/Single.Theme.DesignDemo">
 
         </activity>
 
