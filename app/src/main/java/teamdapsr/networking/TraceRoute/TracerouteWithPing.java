@@ -155,6 +155,7 @@ public class TracerouteWithPing {
 					String hostname = inetAddr.getHostName();
 					String canonicalHostname = inetAddr.getCanonicalHostName();
 					trace.setHostname(hostname);
+					Log.i("khownIP" , trace.getIp());
 					Log.d(TraceActivity.tag, "hostname : " + hostname);
 					Log.d(TraceActivity.tag, "canonicalHostname : " + canonicalHostname);
 
