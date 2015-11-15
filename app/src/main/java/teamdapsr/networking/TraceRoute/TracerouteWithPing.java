@@ -7,11 +7,13 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+
 import teamdapsr.networking.Activity.TraceActivity;
 import teamdapsr.networking.R;
 
@@ -37,6 +39,7 @@ public class TracerouteWithPing {
 	private int finishedTasks;
 	private String urlToPing;
 	private String ipToPing;
+	private String localip;
 	private float elapsedTime;
 	private TraceActivity context;
 
@@ -62,6 +65,8 @@ public class TracerouteWithPing {
 		this.finishedTasks = 0;
 		this.urlToPing = url;
 		this.traces = new ArrayList<TracerouteContainer>();
+
+
 
 		new ExecutePingAsyncTask(maxTtl).execute();
 	}
@@ -135,9 +140,12 @@ public class TracerouteWithPing {
 		protected String doInBackground(Void... params) {
 			if (hasConnectivity()) {
 				try {
+
 					String res = launchPing(urlToPing);
 
 					TracerouteContainer trace;
+
+
 
 					if (res.contains(UNREACHABLE_PING) && !res.contains(EXCEED_PING)) {
 						// Create the TracerouteContainer object when ping
@@ -147,6 +155,7 @@ public class TracerouteWithPing {
 						// Create the TracerouteContainer object when succeed
 						trace = new TracerouteContainer("", parseIpFromPing(res), ttl == maxTtl ? Float.parseFloat(parseTimeFromPing(res))
 								: elapsedTime, true);
+						localip = parseIpFromPing(res);
 					}
 
 					// Get the host name from ip (unix ping do not support
@@ -243,15 +252,25 @@ public class TracerouteWithPing {
 							Log.d(TraceActivity.tag, result);
 
 							if (traces.size() > 0 && traces.get(traces.size() - 1).getIp().equals(ipToPing)) {
-								if (ttl < maxTtl) {
+
+								if(ipToPing.equals(localip))
+								{
+									context.stopProgressBar();
+								}
+								else if (ttl < maxTtl) {
 									ttl = maxTtl;
 									traces.remove(traces.size() - 1);
 									new ExecutePingAsyncTask(maxTtl).execute();
-								} else {
+								} else{
 									context.stopProgressBar();
 								}
 							} else {
-								if (ttl < maxTtl) {
+
+								if(ipToPing.equals(localip))
+								{
+									context.stopProgressBar();
+								}
+								else if (ttl < maxTtl) {
 									ttl++;
 									new ExecutePingAsyncTask(maxTtl).execute();
 								}
