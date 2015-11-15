@@ -18,31 +18,31 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/ping"
             android:icon="@drawable/ic_dashboard"
-            android:title="IP" />
+            android:title="Ping" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/Traceroute"
             android:icon="@drawable/ic_event"
-            android:title="Messages" />
+            android:title="Traceroute" />
         <item
-            android:id="@+id/nav_friends"
+            android:id="@+id/Whois"
             android:icon="@drawable/ic_headset"
-            android:title="Friends" />
+            android:title="whois" />
         <item
-            android:id="@+id/nav_discussion"
+            android:id="@+id/monitor"
             android:icon="@drawable/ic_forum"
-            android:title="Discussion" />
+            android:title="Monitor" />
     </group>
 
     <item android:title="Sub items">
         <menu>
-            <item
+           <!-- <item
                 android:icon="@drawable/ic_dashboard"
                 android:title="Sub item 1" />
             <item
                 android:icon="@drawable/ic_forum"
-                android:title="Sub item 2" />
+                android:title="Sub item 2" />-->
         </menu>
     </item>
 
