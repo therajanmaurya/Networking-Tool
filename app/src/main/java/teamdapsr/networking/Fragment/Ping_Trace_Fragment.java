@@ -121,10 +121,20 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
                         }else if(which == 1){
                             // edit
                         }else if(which == 2){
-                            new Delete().from(Ping_Host_Model.class)
-                                    .where("host = ?", ping_host_models.get(listPosition).getHost()).execute();
-                            ping_host_models.remove(listPosition);
-                            mAdapter.notifyDataSetChanged();
+							if(viewposition == 1)
+							{
+								new Delete().from(Ping_Host_Model.class)
+										.where("host = ?", ping_host_models.get(listPosition).getHost()).execute();
+								ping_host_models.remove(listPosition);
+								mAdapter.notifyDataSetChanged();
+							}else if(viewposition == 2)
+							{
+								new Delete().from(Traceroute_model.class)
+										.where("host = ?", traceroute_models.get(listPosition).getHost()).execute();
+								traceroute_models.remove(listPosition);
+								mAdapter.notifyDataSetChanged();
+							}
+
                         }
                     }
                 })
