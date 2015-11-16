@@ -38,6 +38,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import java.util.ArrayList;
+
+import teamdapsr.networking.Activity.MonitorDialog;
 import teamdapsr.networking.Activity.Ping_To_Domain;
 import teamdapsr.networking.Activity.TraceActivity;
 import teamdapsr.networking.Adapter.Manual_Ping_Adapter;
@@ -56,7 +58,7 @@ import teamdapsr.networking.Utils.Utils;
  * Demonstrates the use of {@link RecyclerView} with a {@link LinearLayoutManager} and a
  * {@link GridLayoutManager}.
  */
-public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickListner.OnItemClickListener{
+public class Ping_Trace_Monitor_Fragment extends Fragment implements RecyclerItemClickListner.OnItemClickListener{
 
     private final String TAG = getClass().getSimpleName();
 
@@ -76,12 +78,12 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 
 
 	@SuppressLint("ValidFragment")
-	public Ping_Trace_Fragment(int Position)
+	public Ping_Trace_Monitor_Fragment(int Position)
 	{
 		this.viewposition = Position;
 	}
 
-	public Ping_Trace_Fragment()
+	public Ping_Trace_Monitor_Fragment()
 	{
 
 	}
@@ -321,9 +323,8 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 				startActivity(trace);
 				return;
 			case 3:
-				Intent monit = new Intent(getActivity(), pingintent);
-				monit.putExtra(Ping_To_Domain.EXTRA_domain, host_data);
-				startActivity(monit);
+                MonitorDialog monitorDialog = new MonitorDialog(getActivity());
+                monitorDialog.startDialog(host_data );
 				return;
 
 		}
