@@ -28,6 +28,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
+import teamdapsr.networking.DB_Model.Monitor_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DB_Model.Traceroute_model;
 import teamdapsr.networking.R;
@@ -44,6 +45,7 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
     private int mBackground;
     private ArrayList<Ping_Host_Model> Ping_array;
     private ArrayList<Traceroute_model> Trace_array;
+	private ArrayList<Monitor_Model> monitor_array;
     private int pagerposition;
 
 
@@ -56,6 +58,7 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
 
 
         private final ImageView mImageView;
+		private final ImageView status;
         private final TextView host;
         private final TextView Hdate;
         private final TextView Htime;
@@ -71,6 +74,7 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
             });
 
             mImageView = (ImageView) v.findViewById(R.id.avatar);
+			status = (ImageView) v.findViewById(R.id.status);
             host = (TextView) v.findViewById(android.R.id.text1);
             Hdate = (TextView)v.findViewById(R.id.Host_date);
             Htime = (TextView) v.findViewById(R.id.Host_time);
@@ -92,20 +96,28 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
         public ImageView getmImageView() {
             return mImageView;
         }
+
+		public ImageView getstatus()
+		{
+			return status;
+		}
     }
     // END_INCLUDE(recyclerViewSampleViewHolder)
 
     /**
      * Initialize the dataset of the Adapter.
      *
-     * @param ping_host_modelArryList String[] containing the data to populate views to be used by RecyclerView.
-     */
-    public Manual_Ping_Adapter(Context context, int Position , ArrayList<Ping_Host_Model> ping_host_modelArryList , ArrayList<Traceroute_model> traceroute_models) {
+	 * @param Position is the view pager position
+	 * @param ping_host_modelArryList String[] containing the data to populate views to be used by RecyclerView.
+	 * @param monitor_models
+	 */
+    public Manual_Ping_Adapter(Context context, int Position, ArrayList<Ping_Host_Model> ping_host_modelArryList, ArrayList<Traceroute_model> traceroute_models, ArrayList<Monitor_Model> monitor_models) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
         this.pagerposition = Position;
         this.Ping_array =  ping_host_modelArryList;
         this.Trace_array = traceroute_models;
+		this.monitor_array = monitor_models;
     }
 
 
@@ -136,12 +148,15 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
             viewHolder.getDate().setText(Ping_array.get(position).getDate_time_model().getHost_date());
             viewHolder.gettime().setText(Ping_array.get(position).getDate_time_model().getHost_time());
             viewHolder.getmImageView().setImageResource(R.drawable.cheese_1);
+			viewHolder.getstatus().setVisibility(View.GONE);
+
         }else if(pagerposition == 2)
         {
             viewHolder.gethost().setText(Trace_array.get(position).getHost());
             viewHolder.getDate().setText(Trace_array.get(position).getDate_time_model().getHost_date());
             viewHolder.gettime().setText(Trace_array.get(position).getDate_time_model().getHost_time());
             viewHolder.getmImageView().setImageResource(R.drawable.cheese_2);
+			viewHolder.getstatus().setVisibility(View.GONE);
         }
 
 

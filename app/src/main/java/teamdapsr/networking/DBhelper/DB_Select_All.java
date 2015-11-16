@@ -4,6 +4,7 @@ import com.activeandroid.query.Select;
 
 import java.util.List;
 
+import teamdapsr.networking.DB_Model.Monitor_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DB_Model.Traceroute_model;
 
@@ -25,6 +26,14 @@ public class DB_Select_All {
 		return new Select()
 				.all()
 				.from(Traceroute_model.class)
+				.execute();
+	}
+
+	public static List<Monitor_Model> Select_AllMonitor(){
+
+		return new Select()
+				.all()
+				.from(Monitor_Model.class)
 				.execute();
 	}
 }

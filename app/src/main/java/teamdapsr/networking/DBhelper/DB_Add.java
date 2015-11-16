@@ -1,6 +1,7 @@
 package teamdapsr.networking.DBhelper;
 
 import teamdapsr.networking.DB_Model.Date_Time_Model;
+import teamdapsr.networking.DB_Model.Monitor_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DB_Model.Traceroute_model;
 
@@ -30,6 +31,10 @@ public class DB_Add {
 			case 2:
 				Traceroute_model traceroute_model = new Traceroute_model(host , date_time_model);
 				traceroute_model.save();
+				break;
+			case 3:
+				Monitor_Model monitor_model = new Monitor_Model(host , date_time_model);
+				monitor_model.save();
 				break;
 		}
 

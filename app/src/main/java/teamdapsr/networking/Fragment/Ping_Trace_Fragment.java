@@ -33,14 +33,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.activeandroid.query.Delete;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
-
 import java.util.ArrayList;
-
 import teamdapsr.networking.Activity.Ping_To_Domain;
 import teamdapsr.networking.Activity.TraceActivity;
 import teamdapsr.networking.Adapter.Manual_Ping_Adapter;
@@ -49,6 +46,7 @@ import teamdapsr.networking.Custom_RecyclerView.Custom_RecyclerView;
 import teamdapsr.networking.DB_Model.Date_Time_Model;
 import teamdapsr.networking.DB_Model.Ping_Host_Model;
 import teamdapsr.networking.DB_Model.Traceroute_model;
+import teamdapsr.networking.DB_Model.Monitor_Model;
 import teamdapsr.networking.DBhelper.DB_Add;
 import teamdapsr.networking.DBhelper.DB_Select_All;
 import teamdapsr.networking.R;
@@ -74,6 +72,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
     boolean Add_list_status = false;
     public ArrayList<Ping_Host_Model> ping_host_models ;
 	public ArrayList<Traceroute_model> traceroute_models;
+	public ArrayList<Monitor_Model> monitor_models;
 
 
 	@SuppressLint("ValidFragment")
@@ -89,21 +88,26 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 
     @Override
     public void onItemClick(View childView, int position) {
-        Log.i(LOG_TAG , "The viewposition :" + position);
+        Log.i(LOG_TAG, "The viewposition :" + position);
 
 		String domain = null;
 		if(viewposition == 1)
 		{
 			domain = ping_host_models.get(position).getHost();
+			startactivity(viewposition,domain, Ping_To_Domain.class, TraceActivity.class , null);
 
 		}else if(viewposition == 2)
 		{
 			domain = traceroute_models.get(position).getHost();
+			startactivity(viewposition,domain, Ping_To_Domain.class, TraceActivity.class , null);
+
+		}else if(viewposition == 3)
+		{
+
 		}
 
-        Log.d(LOG_TAG ,"Domain is :" + domain);
+		Log.d(LOG_TAG ,"Domain is :" + domain);
 
-		startactivity(viewposition,domain, Ping_To_Domain.class, TraceActivity.class);
     }
 
     @Override
@@ -133,6 +137,12 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 										.where("host = ?", traceroute_models.get(listPosition).getHost()).execute();
 								traceroute_models.remove(listPosition);
 								mAdapter.notifyDataSetChanged();
+							}else if(viewposition == 3)
+							{
+								new Delete().from(Monitor_Model.class)
+										.where("host = ?", monitor_models.get(listPosition).getHost()).execute();
+								monitor_models.remove(listPosition);
+								mAdapter.notifyDataSetChanged();
 							}
 
                         }
@@ -150,7 +160,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
        // ping_host_models = new ArrayList<>();
 		ping_host_models = (ArrayList<Ping_Host_Model>) DB_Select_All.Select_AllPing();
 		traceroute_models = (ArrayList<Traceroute_model>) DB_Select_All.Select_AllTrace();
-
+		monitor_models = (ArrayList<Monitor_Model>) DB_Select_All.Select_AllMonitor();
     }
 
     @Override
@@ -164,7 +174,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListner(getActivity(), this));
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new Manual_Ping_Adapter(getActivity() , viewposition, ping_host_models , traceroute_models);
+        mAdapter = new Manual_Ping_Adapter(getActivity() , viewposition, ping_host_models , traceroute_models , monitor_models);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setEmptyView(mTextEmptyList);
 
@@ -183,7 +193,10 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
                 }else if(viewposition == 2)
                 {
                     FabDialog(viewposition,"New Host" ,"Trace Host");
-                }
+                }else if(viewposition == 3)
+				{
+
+				}
 
             }
         });
@@ -199,8 +212,9 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
      * @param date current date to save in database
      * @param time  current time to save in database
      * @param host_id host or Ip to save in data base
+	 * @param status of the monitor ping
      */
-    public void saveTOdatabase(String host_id, String date , String time)
+    public void saveTOdatabase(String host_id, String date , String time , @Nullable boolean status)
     {
 
         DB_Add.AddToDatabse(viewposition, host_id, date, time);
@@ -221,6 +235,13 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 			traceroute_models.add(traceroute);
 			//mAdapter.notifyItemInserted(ping_host_models.size() - 1);
 			Log.i(LOG_TAG, "save to database : " + traceroute_models.size());
+			mAdapter.notifyDataSetChanged();
+		}else if(viewposition == 3)
+		{
+			Monitor_Model monitor_model = new Monitor_Model(host_id , false , date_time_model);
+			monitor_models.add(monitor_model);
+			//mAdapter.notifyItemInserted(ping_host_models.size() - 1);
+			Log.i(LOG_TAG, "save to database : " + monitor_models.size());
 			mAdapter.notifyDataSetChanged();
 		}
 
@@ -249,8 +270,8 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 							String date = Utils.getCurrentDate();
 							String time = Utils.getCurrentTime();
 
-							saveTOdatabase(host_data, date, time);
-							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class);
+							saveTOdatabase(host_data, date, time , false);
+							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class , null);
 							Log.i(LOG_TAG, "list value" + ping_host_models.size());
 
 
@@ -259,7 +280,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 
 							String host_data = host.getText().toString();
 
-							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class);
+							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class , null);
 							Log.i(LOG_TAG, "click list value" + ping_host_models.size());
 
 
@@ -291,7 +312,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 	}
 
 
-	public void startactivity(int position , @Nullable String host_data , @Nullable Class pingintent , @Nullable Class traceintent)
+	public void startactivity(int position , @Nullable String host_data , @Nullable Class pingintent , @Nullable Class traceintent, @Nullable Class monitor)
 	{
 
 		switch (position)
@@ -306,6 +327,10 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 				trace.putExtra(TraceActivity.EXTRA_domain, host_data);
 				startActivity(trace);
 				return;
+			case 3:
+
+				return;
+
 		}
 		return;
 	}

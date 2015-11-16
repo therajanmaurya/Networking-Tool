@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new Ping_Trace_Fragment(1), "Ping");
 		adapter.addFragment(new Ping_Trace_Fragment(2), "Traceroute");
+        adapter.addFragment(new Ping_Trace_Fragment(3), "Monitor");
         adapter.addFragment(new Whois(), "Whois");
         viewPager.setAdapter(adapter);
     }
