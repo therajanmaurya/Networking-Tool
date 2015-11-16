@@ -40,10 +40,10 @@ public class ConnectionDetector {
     {
         if(Connectivity.isConnectedMobile(_context))
         {
-            return "Data";
+            return "Data Connection";
         }else if(Connectivity.isConnectedWifi(_context))
         {
-            return "Wifi";
+            return "Wifi Connection";
         }
 
         return null;

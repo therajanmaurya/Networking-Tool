@@ -42,7 +42,7 @@ public class MonitorDialog {
                 .build();
 
         networktype = (TextView) dialog.getCustomView().findViewById(R.id.connectiontype);
-        networktype.setText("Network Connection :" +connectionDetector.ConnectionType());
+        networktype.setText("Network :" +connectionDetector.ConnectionType());
 
         mServiceresponse = (TextView) dialog.getCustomView().findViewById(R.id.serviceresponse);
 
