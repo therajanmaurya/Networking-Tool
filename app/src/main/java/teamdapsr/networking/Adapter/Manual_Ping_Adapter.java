@@ -45,7 +45,7 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
     private int mBackground;
     private ArrayList<Ping_Host_Model> Ping_array;
     private ArrayList<Traceroute_model> Trace_array;
-	private ArrayList<Monitor_Model> monitor_array;
+	private ArrayList<Monitor_Model> Monitor_array;
     private int pagerposition;
 
 
@@ -117,7 +117,7 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
         this.pagerposition = Position;
         this.Ping_array =  ping_host_modelArryList;
         this.Trace_array = traceroute_models;
-		this.monitor_array = monitor_models;
+		this.Monitor_array = monitor_models;
     }
 
 
@@ -157,6 +157,13 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
             viewHolder.gettime().setText(Trace_array.get(position).getDate_time_model().getHost_time());
             viewHolder.getmImageView().setImageResource(R.drawable.cheese_2);
 			viewHolder.getstatus().setVisibility(View.GONE);
+        }else if(pagerposition == 3)
+        {
+            viewHolder.gethost().setText(Monitor_array.get(position).getHost());
+            viewHolder.getDate().setText(Monitor_array.get(position).getDate_time_model().getHost_date());
+            viewHolder.gettime().setText(Monitor_array.get(position).getDate_time_model().getHost_time());
+            viewHolder.getmImageView().setImageResource(R.drawable.cheese_1);
+            viewHolder.getstatus().setImageResource(R.drawable.ic_check_circle_black_24dp);
         }
 
 
@@ -170,6 +177,8 @@ public class Manual_Ping_Adapter extends Custom_RecyclerView.Adapter<Manual_Ping
                 return Ping_array.size();
             case 2:
                 return Trace_array.size();
+            case 3:
+                return Monitor_array.size();
         }
         return 0;
     }

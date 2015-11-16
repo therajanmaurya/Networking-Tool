@@ -33,7 +33,7 @@ public class DB_Add {
 				traceroute_model.save();
 				break;
 			case 3:
-				Monitor_Model monitor_model = new Monitor_Model(host , date_time_model);
+				Monitor_Model monitor_model = new Monitor_Model(host , date_time_model, false);
 				monitor_model.save();
 				break;
 		}

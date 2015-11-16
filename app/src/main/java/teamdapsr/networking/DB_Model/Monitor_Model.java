@@ -30,9 +30,9 @@ public class Monitor_Model extends Model implements Serializable {
 	/**
 	 * Initializing all
 	 *
-	 *@param host
+	 * @param host
 	 */
-	public Monitor_Model(String host, boolean status ,Date_Time_Model date_time_model) {
+	public Monitor_Model(String host, Date_Time_Model date_time_model, boolean status) {
 		super();
 		this.host = host;
 		this.date_time_model = date_time_model;

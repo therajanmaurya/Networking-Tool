@@ -89,29 +89,12 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
     @Override
     public void onItemClick(View childView, int position) {
         Log.i(LOG_TAG, "The viewposition :" + position);
-
-		String domain = null;
-		if(viewposition == 1)
-		{
-			domain = ping_host_models.get(position).getHost();
-			startactivity(viewposition,domain, Ping_To_Domain.class, TraceActivity.class , null);
-
-		}else if(viewposition == 2)
-		{
-			domain = traceroute_models.get(position).getHost();
-			startactivity(viewposition,domain, Ping_To_Domain.class, TraceActivity.class , null);
-
-		}else if(viewposition == 3)
-		{
-
-		}
-
-		Log.d(LOG_TAG ,"Domain is :" + domain);
+        startping(position);
 
     }
 
     @Override
-    public void onItemLongPress(View childView, int position) {
+    public void onItemLongPress(View childView, final int position) {
 
        final  int listPosition = position;
         new MaterialDialog.Builder(getActivity())
@@ -121,10 +104,20 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         if(which == 0){
-                            //start
+
+                            /**
+                             * Start Task OnLongPress The RecyclerView Item
+                             */
+                            startping(position);
+
                         }else if(which == 1){
                             // edit
                         }else if(which == 2){
+
+
+                            /**
+                             * Deleting the element from database
+                             */
 							if(viewposition == 1)
 							{
 								new Delete().from(Ping_Host_Model.class)
@@ -195,7 +188,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
                     FabDialog(viewposition,"New Host" ,"Trace Host");
                 }else if(viewposition == 3)
 				{
-
+					FabDialog(viewposition,"New Host" ,"Monitor");
 				}
 
             }
@@ -214,7 +207,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
      * @param host_id host or Ip to save in data base
 	 * @param status of the monitor ping
      */
-    public void saveTOdatabase(String host_id, String date , String time , @Nullable boolean status)
+    public void saveTOdatabase(String host_id, String date , String time , @Nullable Boolean status)
     {
 
         DB_Add.AddToDatabse(viewposition, host_id, date, time);
@@ -238,7 +231,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 			mAdapter.notifyDataSetChanged();
 		}else if(viewposition == 3)
 		{
-			Monitor_Model monitor_model = new Monitor_Model(host_id , false , date_time_model);
+			Monitor_Model monitor_model = new Monitor_Model(host_id , date_time_model, false);
 			monitor_models.add(monitor_model);
 			//mAdapter.notifyItemInserted(ping_host_models.size() - 1);
 			Log.i(LOG_TAG, "save to database : " + monitor_models.size());
@@ -271,7 +264,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 							String time = Utils.getCurrentTime();
 
 							saveTOdatabase(host_data, date, time , false);
-							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class , null);
+							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class , Ping_To_Domain.class);
 							Log.i(LOG_TAG, "list value" + ping_host_models.size());
 
 
@@ -280,7 +273,7 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 
 							String host_data = host.getText().toString();
 
-							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class , null);
+							startactivity(viewposition, host_data, Ping_To_Domain.class, TraceActivity.class , Ping_To_Domain.class);
 							Log.i(LOG_TAG, "click list value" + ping_host_models.size());
 
 
@@ -299,14 +292,14 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 		Add_list = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
 
 		Add_list.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-				Log.i(LOG_TAG, "" + isChecked);
-				Add_list_status = isChecked;
+                Log.i(LOG_TAG, "" + isChecked);
+                Add_list_status = isChecked;
 
-			}
-		});
+            }
+        });
 
 		dialog.show();
 	}
@@ -318,9 +311,9 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 		switch (position)
 		{
 			case 1:
-				Intent intent = new Intent(getActivity(), pingintent);
-				intent.putExtra(Ping_To_Domain.EXTRA_domain, host_data);
-				startActivity(intent);
+				Intent ping  = new Intent(getActivity(), pingintent);
+				ping.putExtra(Ping_To_Domain.EXTRA_domain, host_data);
+				startActivity(ping);
 				return;
 			case 2:
 				Intent trace = new Intent(getActivity(), traceintent);
@@ -328,12 +321,37 @@ public class Ping_Trace_Fragment extends Fragment implements RecyclerItemClickLi
 				startActivity(trace);
 				return;
 			case 3:
-
+				Intent monit = new Intent(getActivity(), pingintent);
+				monit.putExtra(Ping_To_Domain.EXTRA_domain, host_data);
+				startActivity(monit);
 				return;
 
 		}
 		return;
 	}
+
+
+    public void startping(int itemposition)
+    {
+        String domain = null;
+
+        if(viewposition == 1)
+        {
+            domain = ping_host_models.get(itemposition).getHost();
+
+        }else if(viewposition == 2)
+        {
+            domain = traceroute_models.get(itemposition).getHost();
+
+        }else if(viewposition == 3)
+        {
+            domain = monitor_models.get(itemposition).getHost();
+        }
+
+        Log.d(LOG_TAG ,"Domain is :" + domain);
+        startactivity(viewposition, domain, Ping_To_Domain.class, TraceActivity.class, Ping_To_Domain.class);
+    }
+
 
 
 }
