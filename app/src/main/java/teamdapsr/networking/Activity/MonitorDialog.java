@@ -1,9 +1,11 @@
 package teamdapsr.networking.Activity;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import teamdapsr.networking.R;
+import teamdapsr.networking.connectionInfo.ConnectionDetector;
 
 /**
  * Created by RajanMaurya on 16/11/15.
@@ -11,19 +13,30 @@ import teamdapsr.networking.R;
 public class MonitorDialog {
 
     Context  context;
+    ConnectionDetector connectionDetector;
+    TextView networktype;
 
     public MonitorDialog(Context context)
     {
         this.context = context;
+        connectionDetector = new ConnectionDetector(context);
+
     }
 
     public void startDialog(String title )
     {
-        new MaterialDialog.Builder(context)
-                .title(title)
-                .customView(R.layout.materialdialog, true)
+
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .title("Check: " +title)
+                .customView(R.layout.monitordialog, true)
                 .negativeText("OK")
-                .show();
+                .build();
+
+        networktype = (TextView) dialog.getCustomView().findViewById(R.id.connectiontype);
+        networktype.setText("Network Connection :" +connectionDetector.ConnectionType());
+
+        dialog.show();
+
     }
 
 
